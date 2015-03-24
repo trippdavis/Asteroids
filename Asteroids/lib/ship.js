@@ -4,7 +4,7 @@
   }
 
   var COLOR = "#FFFFFF"; //add a color
-  var RADIUS = 30;
+  var RADIUS = 10;
 
   var Ship = Asteroids.Ship = function (obj) {
     Asteroids.MovingObject.call(this,

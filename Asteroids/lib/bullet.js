@@ -3,7 +3,7 @@
     window.Asteroids = {};
   }
   var BULLET_MULT = 2;
-  var BULLET_COLOR = "#000000";
+  var BULLET_COLOR = "#FFFFFF";
   var BULLET_RADIUS = 1;
 
   var Bullet = Asteroids.Bullet = function (obj) {

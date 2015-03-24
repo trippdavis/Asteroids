@@ -3,8 +3,8 @@
     window.Asteroids = {};
   }
 
-  var DIM_X = 450;
-  var DIM_Y = 325;
+  var DIM_X = 800;
+  var DIM_Y = 600;
   var NUM_ASTEROIDS = 2;
 
   var Game = Asteroids.Game = function () {
@@ -44,6 +44,7 @@
 
   Game.prototype.draw = function (ctx) {
     ctx.clearRect(0, 0, DIM_X, DIM_Y);
+    ctx.drawImage(img, 0, 0);
     for (var i = 0; i < this.allObjects().length; i++) {
       this.allObjects()[i].draw(ctx);
     }

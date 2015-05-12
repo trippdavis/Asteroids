@@ -17,11 +17,8 @@
   };
 
   Game.prototype.isOutOfBounds = function (pos) {
-    if (pos[0] < 0 || pos[0] > DIM_X || pos[1] < 0 || pos[1] > DIM_Y) {
-      return true;
-    }
-    return false;
-  }
+    return (pos[0] < 0 || pos[0] > DIM_X || pos[1] < 0 || pos[1] > DIM_Y);
+  };
 
   Game.prototype.allObjects = function () {
     return this.asteroids.concat([this.ship]).concat(this.bullets);
@@ -57,17 +54,18 @@
   };
 
   Game.prototype.wrap = function (pos) {
+    var posX, posY;
     if (pos[0] >= 0) {
-      var posX = pos[0] % DIM_X;
+      posX = pos[0] % DIM_X;
     }
     else if (pos[0] < 0) {
-      var posX = DIM_X + pos[0];
+      posX = DIM_X + pos[0];
     }
     if (pos[1] >= 0) {
-      var posY = pos[1] % DIM_Y;
+      posY = pos[1] % DIM_Y;
     }
     else if (pos[1] < 0) {
-      var posY = DIM_Y + pos[1];
+      posY = DIM_Y + pos[1];
     }
 
     return [posX, posY];

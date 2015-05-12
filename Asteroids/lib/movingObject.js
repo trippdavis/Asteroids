@@ -46,8 +46,6 @@
   };
 
   mo.prototype.isCollidedWith = function (otherObject) {
-    // this is math, not JavaScript
-    // Dist([x_1, y_1], [x_2, y_2]) = sqrt((x_1 - x_2) ** 2 + (y_1 - y_2) ** 2)
     var x1 = this.pos[0];
     var y1 = this.pos[1];
     var x2 = otherObject.pos[0];
@@ -66,6 +64,4 @@
       this.game.removeBullet(otherObject);
     }
   };
-
-
 })();

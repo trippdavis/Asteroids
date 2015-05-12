@@ -3,7 +3,7 @@
     window.Asteroids = {};
   }
 
-  var COLOR = "#FFFFFF"; //add a color
+  var COLOR = "#FFFFFF";
   var RADIUS = 10;
 
   var Ship = Asteroids.Ship = function (obj) {
@@ -33,5 +33,4 @@
     var bullet = new Asteroids.Bullet({ pos: this.pos, vel: this.vel, game: this.game});
     this.game.bullets.push(bullet);
   };
-
 })();

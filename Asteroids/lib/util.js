@@ -14,8 +14,8 @@
   };
 
   Asteroids.Util.randomVec = function (length) {
-    var x = length * Math.random();
-    var y = length * Math.random();
+    var x = (length * Math.random()) + 1;
+    var y = (length * Math.random()) + 1;
     return [x, y];
   };
 

@@ -4,6 +4,7 @@
   }
 
   var Game = Asteroids.Game = function () {
+    this.lives = 3;
     this.dimX = 800;
     this.dimY = 600;
     this.newAsteroidNum = 0.03;
@@ -59,6 +60,13 @@
     for (var i = 0; i < this.allObjects().length; i++) {
       this.allObjects()[i].draw(ctx);
     }
+    this.showLives();
+  };
+
+  Game.prototype.showLives = function () {
+    ctx.fillStyle = "white";
+    ctx.font = "20pt Arial";
+    ctx.fillText("Lives: " + this.lives, 10, 30);
   };
 
   Game.prototype.moveObjects = function () {

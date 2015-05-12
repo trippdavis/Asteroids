@@ -28,7 +28,7 @@
 
 
   GameView.prototype.start = function () {
-    window.setInterval((function () {
+    window.interval = window.setInterval((function () {
       this.game.step();
       this.game.draw(this.ctx);
       this.bindKeyHandlers();

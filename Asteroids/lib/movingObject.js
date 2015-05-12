@@ -53,6 +53,10 @@
 
   mo.prototype.collideWith = function (otherObject) {
     if (otherObject instanceof Asteroids.Ship) {
+      this.game.lives = this.game.lives - 1;
+      if (this.game.lives === 0) {
+        debugger
+      }
       otherObject.relocate();
     }
     else if ((this instanceof Asteroids.Asteroid) &&

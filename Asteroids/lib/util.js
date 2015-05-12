@@ -14,11 +14,30 @@
   };
 
   Asteroids.Util.randomVec = function (length) {
-    var x = length * ((Math.random() - 0.5) * 2);
-    var y = Math.sqrt(Math.pow(length, 2) + Math.pow(x, 2));
-    if (Math.random() < 0.5) {
-      y *= -1;
-    }
+    var x = length * Math.random();
+    var y = length * Math.random();
     return [x, y];
+  };
+
+  Asteroids.Util.randomVel = function (pos, game) {
+    var vel = Asteroids.Util.randomVec(1);
+    var neg = (Math.random() > 0.5);
+    if (pos[0] === 0 || pos[0] === game.dimX) {
+      if (neg) {
+        vel[1] = -vel[1];
+      }
+      if (pos[0] === game.dimX) {
+        vel[0] = -vel[0];
+      }
+    } else {
+      if (neg) {
+        vel[0] = -vel[0];
+      }
+      if (pos[1] === game.dimY) {
+        vel[1] = -vel[1];
+      }
+    }
+
+    return vel;
   };
 })();

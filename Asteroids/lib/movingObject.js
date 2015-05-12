@@ -4,14 +4,12 @@
   }
 
   var mo = Asteroids.MovingObject = function (obj) {
-    this.pos = obj.pos,
-    this.vel = obj.vel,
-    this.radius = obj.radius,
-    this.color = obj.color,
-    this.game = obj.game
+    this.pos = obj.pos;
+    this.vel = obj.vel;
+    this.radius = obj.radius;
+    this.color = obj.color;
+    this.game = obj.game;
   };
-
-  mo.prototype.isWrappable = true;
 
   mo.prototype.draw = function (ctx) {
     ctx.fillStyle = this.color;
@@ -30,17 +28,16 @@
   };
 
   mo.prototype.move = function () {
-
     var newX = this.pos[0] + this.vel[0];
     var newY = this.pos[1] + this.vel[1];
     var pos = [newX, newY];
-    if (!(this instanceof Asteroids.Bullet)) {
+    if (this instanceof Asteroids.Ship) {
       this.pos = this.game.wrap(pos);
     } else {
       if (this.game.isOutOfBounds(pos)) {
-        this.game.removeBullet(this);
+        this.game.removeObject(this);
       } else {
-      this.pos = pos;
+        this.pos = pos;
       }
     }
   };

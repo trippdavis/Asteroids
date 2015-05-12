@@ -20,7 +20,7 @@
 
   Ship.prototype.relocate = function () {
     this.vel = [0,0];
-    this.pos = this.game.randomPosition().pos;
+    this.pos = this.game.randomPosition();
   };
 
   Ship.prototype.power = function (impulse) {

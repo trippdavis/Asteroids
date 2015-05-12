@@ -16,7 +16,6 @@
       game: obj.game
     });
   };
-  Asteroids.Util.inherits(Bullet, Asteroids.MovingObject);
 
-  Bullet.prototype.isWrappable = false;
+  Asteroids.Util.inherits(Bullet, Asteroids.MovingObject);
 })();

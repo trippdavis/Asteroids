@@ -61,8 +61,12 @@
       }
     } else if ((this instanceof Asteroids.Asteroid) &&
       (otherObject instanceof Asteroids.Bullet)) {
-      this.game.removeAsteroid(this);
-      this.game.removeBullet(otherObject);
+      this.game.removeObject(this);
+      this.game.removeObject(otherObject);
+    } else if ((this instanceof Asteroids.Ship) &&
+      (otherObject instanceof Asteroids.AmmoRefill)) {
+      this.game.removeObject(otherObject);
+      this.ammo = this.ammo + 20;
     }
   };
 })();

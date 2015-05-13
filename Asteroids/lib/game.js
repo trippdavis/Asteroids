@@ -9,6 +9,7 @@
     this.dimX = 800;
     this.dimY = 600;
     this.newAsteroidNum = 0.03;
+    this.refillNum = 0.01;
     obj = {
       pos: this.randomPosition(),
       game: this
@@ -16,6 +17,7 @@
     this.ship = new Asteroids.Ship(obj);
     this.asteroids = [];
     this.bullets = [];
+    this.refills = [];
   };
 
   Game.prototype.isOutOfBounds = function (pos) {
@@ -23,15 +25,25 @@
   };
 
   Game.prototype.allObjects = function () {
-    return this.asteroids.concat([this.ship]).concat(this.bullets);
+    return this.asteroids.concat([this.ship]).concat(this.bullets).concat(this.refills);
   };
 
   Game.prototype.addAsteroid = function () {
-    obj = {};
-    obj.pos = this.randomEdgePosition();
-    obj.game = this;
+    obj = {
+      pos: this.randomEdgePosition(),
+      game: this
+    };
     var asteroid = new Asteroids.Asteroid(obj);
     this.asteroids.push(asteroid);
+  };
+
+  Game.prototype.addRefill = function () {
+    obj = {
+      pos: this.randomPosition(),
+      game: this
+    };
+    var refill = new Asteroids.AmmoRefill(obj);
+    this.refills.push(refill);
   };
 
   Game.prototype.randomPosition = function () {
@@ -63,12 +75,19 @@
       this.allObjects()[i].draw(ctx);
     }
     this.showLives();
+    this.showAmmo();
   };
 
   Game.prototype.showLives = function () {
     ctx.fillStyle = "white";
     ctx.font = "20pt Arial";
     ctx.fillText("Lives: " + this.lives, 10, 30);
+  };
+
+  Game.prototype.showAmmo = function () {
+    ctx.fillStyle = "white";
+    ctx.font = "20pt Arial";
+    ctx.fillText("Ammo: " + this.ship.ammo, 10, 60);
   };
 
   Game.prototype.moveObjects = function () {
@@ -108,8 +127,10 @@
   Game.prototype.removeObject = function (obj) {
     if (obj instanceof Asteroids.Bullet) {
       this.removeBullet(obj);
-    } else {
+    } else if (obj instanceof Asteroids.Asteroid) {
       this.removeAsteroid(obj);
+    } else if (obj instanceof Asteroids.AmmoRefill) {
+      this.removeRefill(obj);
     }
   };
 
@@ -129,11 +150,22 @@
     }
   };
 
+  Game.prototype.removeRefill = function (refill) {
+    for (var i = 0; i< this.refills.length; i++) {
+      if (refill === this.refills[i]) {
+        this.refills.splice(i, 1);
+      }
+    }
+  };
+
   Game.prototype.step = function () {
     this.moveObjects();
     this.checkCollisions();
     if (Math.random() < this.newAsteroidNum) {
       this.addAsteroid();
+    }
+    if (Math.random() < this.refillNum) {
+      this.addRefill();
     }
   };
 

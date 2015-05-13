@@ -7,6 +7,8 @@
   var RADIUS = 10;
 
   var Ship = Asteroids.Ship = function (obj) {
+    this.ammo = 100;
+
     Asteroids.MovingObject.call(this,
     {
       pos: obj.pos,
@@ -30,7 +32,10 @@
   };
 
   Ship.prototype.fireBullet = function () {
-    var bullet = new Asteroids.Bullet({ pos: this.pos, vel: this.vel, game: this.game});
-    this.game.bullets.push(bullet);
+    if (this.ammo > 0) {
+      var bullet = new Asteroids.Bullet({ pos: this.pos, vel: this.vel, game: this.game});
+      this.game.bullets.push(bullet);
+      this.ammo = this.ammo - 1;
+    }
   };
 })();

@@ -4,11 +4,12 @@
   }
 
   var Game = Asteroids.Game = function () {
+    this.score = 0;
     this.over = false;
     this.lives = 3;
     this.dimX = 800;
     this.dimY = 600;
-    this.newAsteroidNum = 0.03;
+    this.newAsteroidNum = 0.02;
     this.refillNum = 0.005;
     obj = {
       pos: this.randomPosition(),
@@ -74,20 +75,15 @@
     for (var i = 0; i < this.allObjects().length; i++) {
       this.allObjects()[i].draw(ctx);
     }
-    this.showLives();
-    this.showAmmo();
+    this.showStats();
   };
 
-  Game.prototype.showLives = function () {
+  Game.prototype.showStats = function () {
     ctx.fillStyle = "white";
     ctx.font = "20pt Arial";
-    ctx.fillText("Lives: " + this.lives, 10, 30);
-  };
-
-  Game.prototype.showAmmo = function () {
-    ctx.fillStyle = "white";
-    ctx.font = "20pt Arial";
-    ctx.fillText("Ammo: " + this.ship.ammo, 10, 60);
+    ctx.fillText("Score: " + this.score, 10, 30);
+    ctx.fillText("Lives: " + this.lives, 10, 60);
+    ctx.fillText("Ammo: " + this.ship.ammo, 10, 90);
   };
 
   Game.prototype.moveObjects = function () {
@@ -132,6 +128,12 @@
     } else if (obj instanceof Asteroids.AmmoRefill) {
       this.removeRefill(obj);
     }
+  };
+
+  Game.prototype.shootAsteroid = function (bullet, asteroid) {
+    this.score = this.score + asteroid.score;
+    this.removeAsteroid(asteroid);
+    this.removeBullet(bullet);
   };
 
   Game.prototype.removeAsteroid = function (asteroid) {

@@ -61,8 +61,7 @@
       }
     } else if ((this instanceof Asteroids.Asteroid) &&
       (otherObject instanceof Asteroids.Bullet)) {
-      this.game.removeObject(this);
-      this.game.removeObject(otherObject);
+      this.game.shootAsteroid(otherObject, this);
     } else if ((this instanceof Asteroids.Ship) &&
       (otherObject instanceof Asteroids.AmmoRefill)) {
       this.game.removeObject(otherObject);

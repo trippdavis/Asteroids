@@ -83,7 +83,8 @@
     ctx.font = "20pt Arial";
     ctx.fillText("Score: " + this.score, 10, 30);
     ctx.fillText("Lives: " + this.lives, 10, 60);
-    ctx.fillText("Ammo: " + this.ship.ammo, 10, 90);
+    ctx.fillText("Gun: " + this.ship.currentGun().name, 10, 90);
+    ctx.fillText("Ammo: " + this.ship.ammo, 10, 120);
   };
 
   Game.prototype.moveObjects = function () {

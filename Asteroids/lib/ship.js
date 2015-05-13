@@ -9,6 +9,14 @@
   var Ship = Asteroids.Ship = function (obj) {
     this.ammo = 100;
     this.recoil = 0;
+    this.guns = [
+      {name: "Gun 1", ammo: 100},
+      {name: "Gun 2", ammo: 100},
+      {name: "Gun 3", ammo: 100},
+      {name: "Gun 4", ammo: 100},
+      {name: "Gun 5", ammo: 100}
+    ];
+    this.gunIndex = 0;
 
     Asteroids.MovingObject.call(this,
     {
@@ -49,5 +57,9 @@
         this.color = "#FFFFFF";
       }
     }
+  };
+
+  Ship.prototype.currentGun = function () {
+    return this.guns[this.gunIndex];
   };
 })();

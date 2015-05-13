@@ -8,23 +8,37 @@
   };
 
   GameView.prototype.bindKeyHandlers = function () {
-    if(key.isPressed("up")) {
+    if (key.isPressed("up")) {
       this.game.ship.power([0, -0.5]);
     }
-    if(key.isPressed("down")) {
+    if (key.isPressed("down")) {
       this.game.ship.power([0, 0.5]);
     }
-    if(key.isPressed("right")) {
+    if (key.isPressed("right")) {
       this.game.ship.power([0.5, 0]);
     }
-    if(key.isPressed("left")) {
+    if (key.isPressed("left")) {
       this.game.ship.power([-0.5, 0]);
     }
-    if(key.isPressed("space")) {
+    if (key.isPressed("space")) {
       this.game.ship.fireBullet();
     }
+    if (key.isPressed("1")) {
+      this.game.ship.gunIndex = 0;
+    }
+    if (key.isPressed("2")) {
+      this.game.ship.gunIndex = 1;
+    }
+    if (key.isPressed("3")) {
+      this.game.ship.gunIndex = 2;
+    }
+    if (key.isPressed("4")) {
+      this.game.ship.gunIndex = 3;
+    }
+    if (key.isPressed("5")) {
+      this.game.ship.gunIndex = 4;
+    }
   };
-
 
   GameView.prototype.start = function () {
     this.game = new Asteroids.Game();

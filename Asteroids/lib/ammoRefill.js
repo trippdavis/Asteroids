@@ -9,9 +9,11 @@
       pos: obj.pos,
       vel: [0, 0],
       radius: 5,
-      color: "0000ff",
+      color: "#00b0e5",
       game: obj.game
     });
+
+    this.timeLeft = 200;
   };
 
   Asteroids.Util.inherits(AmmoRefill, Asteroids.MovingObject);

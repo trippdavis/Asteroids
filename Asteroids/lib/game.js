@@ -9,7 +9,7 @@
     this.dimX = 800;
     this.dimY = 600;
     this.newAsteroidNum = 0.03;
-    this.refillNum = 0.01;
+    this.refillNum = 0.005;
     obj = {
       pos: this.randomPosition(),
       game: this
@@ -166,6 +166,16 @@
     }
     if (Math.random() < this.refillNum) {
       this.addRefill();
+    }
+    this.decreaseRefillTime();
+  };
+
+  Game.prototype.decreaseRefillTime = function () {
+    for (var i = 0; i < this.refills.length; i++) {
+      this.refills[i].timeLeft--;
+      if (this.refills[i].timeLeft === 0) {
+        this.removeRefill(this.refills[i]);
+      }
     }
   };
 

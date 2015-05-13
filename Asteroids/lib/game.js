@@ -170,6 +170,7 @@
       this.addRefill();
     }
     this.decreaseRefillTime();
+    this.ship.decreaseRecoil();
   };
 
   Game.prototype.decreaseRefillTime = function () {

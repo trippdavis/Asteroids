@@ -8,6 +8,7 @@
 
   var Ship = Asteroids.Ship = function (obj) {
     this.ammo = 100;
+    this.recoil = 0;
 
     Asteroids.MovingObject.call(this,
     {
@@ -32,10 +33,21 @@
   };
 
   Ship.prototype.fireBullet = function () {
-    if (this.ammo > 0) {
+    if (this.ammo > 0 && this.recoil === 0) {
       var bullet = new Asteroids.Bullet({ pos: this.pos, vel: this.vel, game: this.game});
       this.game.bullets.push(bullet);
-      this.ammo = this.ammo - 1;
+      this.ammo--;
+      this.recoil = 10;
+      this.color = "#f4e446";
+    }
+  };
+
+  Ship.prototype.decreaseRecoil = function () {
+    if (this.recoil > 0) {
+      this.recoil--;
+      if (this.recoil === 0) {
+        this.color = "#FFFFFF";
+      }
     }
   };
 })();

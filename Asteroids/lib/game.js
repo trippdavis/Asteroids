@@ -4,15 +4,17 @@
   }
 
   var Game = Asteroids.Game = function () {
+    this.over = false;
     this.lives = 3;
     this.dimX = 800;
     this.dimY = 600;
     this.newAsteroidNum = 0.03;
-    this.asteroids = [];
-    obj = {};
-    obj.pos = this.randomPosition();
-    obj.game = this;
+    obj = {
+      pos: this.randomPosition(),
+      game: this
+    };
     this.ship = new Asteroids.Ship(obj);
+    this.asteroids = [];
     this.bullets = [];
   };
 
@@ -133,6 +135,10 @@
     if (Math.random() < this.newAsteroidNum) {
       this.addAsteroid();
     }
+  };
+
+  Game.prototype.over = function () {
+    window.clearInterval(this.gameView.interval);
   };
 
 })();

@@ -5,7 +5,6 @@
 
   var GameView = Asteroids.GameView = function (ctx) {
     this.ctx = ctx;
-    this.game = new Asteroids.Game();
   };
 
   GameView.prototype.bindKeyHandlers = function () {
@@ -28,11 +27,22 @@
 
 
   GameView.prototype.start = function () {
-    window.interval = window.setInterval((function () {
-      this.game.step();
-      this.game.draw(this.ctx);
-      this.bindKeyHandlers();
+    this.game = new Asteroids.Game();
+
+    this.gameIntervalID = window.setInterval((function () {
+      if (this.game.over) {
+        this.gameOver();
+      } else {
+        this.game.step();
+        this.game.draw(this.ctx);
+        this.bindKeyHandlers();
+      }
     }).bind(this), 20);
+  };
+
+  GameView.prototype.gameOver = function () {
+    clearInterval(this.gameIntervalID);
+    this.start();
   };
 
 })();

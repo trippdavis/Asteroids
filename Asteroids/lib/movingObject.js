@@ -55,11 +55,11 @@
     if (otherObject instanceof Asteroids.Ship) {
       this.game.lives = this.game.lives - 1;
       if (this.game.lives === 0) {
-        debugger
+        this.game.over = true;
+      } else {
+        otherObject.relocate();
       }
-      otherObject.relocate();
-    }
-    else if ((this instanceof Asteroids.Asteroid) &&
+    } else if ((this instanceof Asteroids.Asteroid) &&
       (otherObject instanceof Asteroids.Bullet)) {
       this.game.removeAsteroid(this);
       this.game.removeBullet(otherObject);

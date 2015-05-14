@@ -157,6 +157,16 @@
           j += 1;
         }
       }
+      j = 0;
+      while (j < this.lasers.length && asteroid) {
+        if (this.lasers[j].isCollidedWith(asteroid)) {
+          this.laserHitAsteroid(i);
+          asteroid = false;
+        } else {
+          j += 1;
+        }
+      }
+
       if (asteroid) {
         i += 1;
       }
@@ -185,6 +195,11 @@
     this.score += this.asteroids[asteroidIdx].score;
     this.asteroids.splice(asteroidIdx, 1);
     this.bullets.splice(bulletIdx, 1);
+  };
+
+  Game.prototype.laserHitAsteroid = function (asteroidIdx) {
+    this.score += this.asteroids[asteroidIdx].score;
+    this.asteroids.splice(asteroidIdx, 1);
   };
 
   Game.prototype.step = function () {

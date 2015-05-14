@@ -8,7 +8,7 @@
     this.guns = [
       {name: "Pistol", ammo: 100},
       {name: "Shotgun", ammo: 20},
-      {name: "Gun 3", ammo: 100},
+      {name: "Laser", ammo: 1000},
       {name: "Gun 4", ammo: 100},
       {name: "Gun 5", ammo: 100}
     ];
@@ -45,6 +45,9 @@
         case "Shotgun":
           this.shootShotgun();
           break;
+        case "Laser":
+          this.shootLaser();
+          break;
       }
       this.color = "#f4e446";
     }
@@ -75,7 +78,14 @@
     }
 
     this.currentGun().ammo--;
-    this.recoil = 20;
+    this.recoil = 30;
+  };
+
+  Ship.prototype.shootLaser = function () {
+    var laser = new Asteroids.Laser({ pos: this.pos, vel: [this.vel[0], this.vel[1]], game: this.game });
+    this.game.lasers.push(laser);
+    this.currentGun().ammo--;
+    this.recoil = 50;
   };
 
   Ship.prototype.decreaseRecoil = function () {

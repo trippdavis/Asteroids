@@ -9,7 +9,7 @@
     this.lives = 3;
     this.dimX = 800;
     this.dimY = 600;
-    this.newAsteroidNum = 0.02;
+    this.newAsteroidNum = 0; // 0.02;
     this.refillNum = 0.005;
     obj = {
       pos: this.randomPosition(),
@@ -18,6 +18,7 @@
     this.ship = new Asteroids.Ship(obj);
     this.asteroids = [];
     this.bullets = [];
+    this.lasers = [];
     this.refills = [];
   };
 
@@ -26,7 +27,7 @@
   };
 
   Game.prototype.allObjects = function () {
-    return this.asteroids.concat([this.ship]).concat(this.bullets).concat(this.refills);
+    return this.asteroids.concat([this.ship]).concat(this.bullets).concat(this.refills).concat(this.lasers);
   };
 
   Game.prototype.addAsteroid = function () {
@@ -72,9 +73,11 @@
   Game.prototype.draw = function (ctx) {
     ctx.clearRect(0, 0, this.dimX, this.dimY);
     ctx.drawImage(img, 0, 0);
-    for (var i = 0; i < this.allObjects().length; i++) {
+    var i;
+    for (i = 0; i < this.allObjects().length; i++) {
       this.allObjects()[i].draw(ctx);
     }
+
     this.showStats();
   };
 

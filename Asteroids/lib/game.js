@@ -72,7 +72,7 @@
 
   Game.prototype.draw = function (ctx) {
     ctx.clearRect(0, 0, this.dimX, this.dimY);
-    ctx.drawImage(img, 0, 0);
+    ctx.drawImage(backgroundImg, 0, 0);
     var i;
     for (i = 0; i < this.allObjects().length; i++) {
       this.allObjects()[i].draw(ctx);

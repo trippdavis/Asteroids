@@ -20,11 +20,13 @@
   <script>
     var canvasEl = document.getElementsByTagName("canvas")[0];
     var ctx = canvasEl.getContext('2d');
-    var img = new Image();
-    img.onload = function () {
-      ctx.drawImage(img, 0, 0);
+    var backgroundImg = new Image();
+    var spaceshipImg = new Image();
+    spaceshipImg.src = "lib/spaceship.png";
+    backgroundImg.onload = function () {
+      ctx.drawImage(backgroundImg, 0, 0);
     };
-    img.src = 'lib/myImage.png';
+    backgroundImg.src = 'lib/myImage.png';
     window.gameView = new Asteroids.GameView(ctx);
     window.gameView.start();
   </script>

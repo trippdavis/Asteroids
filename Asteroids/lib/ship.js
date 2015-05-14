@@ -18,12 +18,17 @@
     {
       pos: obj.pos,
       vel: [0, 0],
-      radius: 10,
+      radius: 30,
       color: "#FFFFFF",
       game: obj.game
     });
   };
+
   Asteroids.Util.inherits(Ship, Asteroids.MovingObject);
+
+  Ship.prototype.draw = function () {
+    ctx.drawImage(spaceshipImg, this.pos[0] - this.radius, this.pos[1] - this.radius);
+  };
 
   Ship.prototype.relocate = function () {
     this.vel = [0,0];

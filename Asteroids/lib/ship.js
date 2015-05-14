@@ -100,4 +100,8 @@
   Ship.prototype.currentGun = function () {
     return this.guns[this.gunIndex];
   };
+
+  Ship.prototype.ammoRefill = function () {
+    this.currentGun().ammo += 20;
+  };
 })();

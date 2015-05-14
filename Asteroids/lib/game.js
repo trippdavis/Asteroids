@@ -9,7 +9,7 @@
     this.lives = 3;
     this.dimX = 800;
     this.dimY = 600;
-    this.newAsteroidNum = 0; // 0.02;
+    this.newAsteroidNum = 0.02;
     this.refillNum = 0.005;
     obj = {
       pos: this.randomPosition(),
@@ -91,8 +91,35 @@
   };
 
   Game.prototype.moveObjects = function () {
-    for (var i = 0; i < this.allObjects().length; i++) {
-      this.allObjects()[i].move();
+    var i = 0;
+    this.ship.move();
+    while (i < this.asteroids.length) {
+      var asteroid = this.asteroids[i];
+      asteroid.move();
+      if (this.isOutOfBounds(asteroid.pos)) {
+        this.asteroids.splice(i, 1);
+      } else {
+        i += 1;
+      }
+    }
+    i = 0;
+    while (i < this.bullets.length) {
+      var bullet = this.bullets[i];
+      bullet.move();
+      if (this.isOutOfBounds(bullet.pos)) {
+        this.bullets.splice(i, 1);
+      } else {
+        i += 1;
+      }
+    }
+    while (i < this.lasers.length) {
+      var laser = this.lasers[i];
+      laser.move();
+      if (this.isOutOfBounds(laser.pos)) {
+        this.lasers.splice(i, 1);
+      } else {
+        i += 1;
+      }
     }
   };
 
@@ -115,53 +142,49 @@
   };
 
   Game.prototype.checkCollisions = function () {
-    for (var i = 0; i < this.allObjects().length; i++) {
-      for (var j = (i + 1); j < this.allObjects().length; j++) {
-        if (this.allObjects()[i].isCollidedWith(this.allObjects()[j])) {
-         this.allObjects()[i].collideWith(this.allObjects()[j]);
+    var i = 0;
+    while (i < this.asteroids.length) {
+      var asteroid = this.asteroids[i];
+      if (asteroid.isCollidedWith(this.ship)) {
+        this.shipHitAsteroid();
+      }
+      var j = 0;
+      while (j < this.bullets.length && asteroid) {
+        if (asteroid.isCollidedWith(this.bullets[j])) {
+          this.bulletHitAsteroid(i, j);
+          asteroid = false;
+        } else {
+          j += 1;
         }
       }
-    }
-  };
-
-  Game.prototype.removeObject = function (obj) {
-    if (obj instanceof Asteroids.Bullet) {
-      this.removeBullet(obj);
-    } else if (obj instanceof Asteroids.Asteroid) {
-      this.removeAsteroid(obj);
-    } else if (obj instanceof Asteroids.AmmoRefill) {
-      this.removeRefill(obj);
-    }
-  };
-
-  Game.prototype.shootAsteroid = function (bullet, asteroid) {
-    this.score = this.score + asteroid.score;
-    this.removeAsteroid(asteroid);
-    this.removeBullet(bullet);
-  };
-
-  Game.prototype.removeAsteroid = function (asteroid) {
-    for (var i = 0; i < this.asteroids.length; i++) {
-      if (asteroid === this.asteroids[i]) {
-        this.asteroids.splice(i, 1);
+      if (asteroid) {
+        i += 1;
       }
     }
-  };
-
-  Game.prototype.removeBullet = function (bullet) {
-    for (var i = 0; i < this.bullets.length; i++) {
-      if (bullet === this.bullets[i]) {
-        this.bullets.splice(i, 1);
-      }
-    }
-  };
-
-  Game.prototype.removeRefill = function (refill) {
-    for (var i = 0; i< this.refills.length; i++) {
-      if (refill === this.refills[i]) {
+    i = 0;
+    while (i < this.refills.length) {
+      var refill = this.refills[i];
+      if (refill.isCollidedWith(this.ship)) {
+        this.ship.ammoRefill(refill);
         this.refills.splice(i, 1);
+      } else {
+        i += 1;
       }
     }
+  };
+
+  Game.prototype.shipHitAsteroid = function () {
+    this.ship.relocate();
+    this.lives -= 1;
+    if (this.lives === 0) {
+      this.over = true;
+    }
+  };
+
+  Game.prototype.bulletHitAsteroid = function (asteroidIdx, bulletIdx) {
+    this.score += this.asteroids[asteroidIdx].score;
+    this.asteroids.splice(asteroidIdx, 1);
+    this.bullets.splice(bulletIdx, 1);
   };
 
   Game.prototype.step = function () {
@@ -178,16 +201,15 @@
   };
 
   Game.prototype.decreaseRefillTime = function () {
-    for (var i = 0; i < this.refills.length; i++) {
-      this.refills[i].timeLeft--;
-      if (this.refills[i].timeLeft === 0) {
-        this.removeRefill(this.refills[i]);
+    var i = 0;
+    while (i < this.refills.length) {
+      var refill = this.refills[i];
+      refill.timeLeft--;
+      if (refill.timeLeft === 0) {
+        this.refills.splice(i, 1);
+      } else {
+        i += 1;
       }
     }
   };
-
-  Game.prototype.over = function () {
-    window.clearInterval(this.gameView.interval);
-  };
-
 })();

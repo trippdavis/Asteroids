@@ -34,11 +34,7 @@
     if (this instanceof Asteroids.Ship) {
       this.pos = this.game.wrap(pos);
     } else {
-      if (this.game.isOutOfBounds(pos)) {
-        this.game.removeObject(this);
-      } else {
-        this.pos = pos;
-      }
+      this.pos = pos;
     }
   };
 
@@ -49,23 +45,5 @@
     var y2 = otherObject.pos[1];
     var dist = Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2));
     return (dist < (this.radius + otherObject.radius));
-  };
-
-  mo.prototype.collideWith = function (otherObject) {
-    if (otherObject instanceof Asteroids.Ship) {
-      this.game.lives = this.game.lives - 1;
-      if (this.game.lives === 0) {
-        this.game.over = true;
-      } else {
-        otherObject.relocate();
-      }
-    } else if ((this instanceof Asteroids.Asteroid) &&
-      (otherObject instanceof Asteroids.Bullet)) {
-      this.game.shootAsteroid(otherObject, this);
-    } else if ((this instanceof Asteroids.Ship) &&
-      (otherObject instanceof Asteroids.AmmoRefill)) {
-      this.game.removeObject(otherObject);
-      this.currentGun().ammo += 20;
-    }
   };
 })();

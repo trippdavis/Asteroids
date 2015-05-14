@@ -3,15 +3,11 @@
     window.Asteroids = {};
   }
 
-  var COLOR = "#FFFFFF";
-  var RADIUS = 10;
-
   var Ship = Asteroids.Ship = function (obj) {
-    this.ammo = 100;
     this.recoil = 0;
     this.guns = [
-      {name: "Gun 1", ammo: 100},
-      {name: "Gun 2", ammo: 100},
+      {name: "Pistol", ammo: 100},
+      {name: "Shotgun", ammo: 20},
       {name: "Gun 3", ammo: 100},
       {name: "Gun 4", ammo: 100},
       {name: "Gun 5", ammo: 100}
@@ -22,8 +18,8 @@
     {
       pos: obj.pos,
       vel: [0, 0],
-      radius: RADIUS,
-      color: COLOR,
+      radius: 10,
+      color: "#FFFFFF",
       game: obj.game
     });
   };
@@ -40,14 +36,46 @@
     this.vel = [velX, velY];
   };
 
-  Ship.prototype.fireBullet = function () {
-    if (this.ammo > 0 && this.recoil === 0) {
-      var bullet = new Asteroids.Bullet({ pos: this.pos, vel: this.vel, game: this.game});
-      this.game.bullets.push(bullet);
-      this.ammo--;
-      this.recoil = 10;
+  Ship.prototype.shootGun = function () {
+    if (this.currentGun().ammo > 0 && this.recoil === 0) {
+      switch (this.currentGun().name) {
+        case "Pistol":
+          this.shootPistol();
+          break;
+        case "Shotgun":
+          this.shootShotgun();
+          break;
+      }
       this.color = "#f4e446";
     }
+  };
+
+  Ship.prototype.shootPistol = function () {
+    var bullet = new Asteroids.Bullet({ pos: this.pos, vel: [this.vel[0] * 2, this.vel[1] * 2], game: this.game});
+    this.game.bullets.push(bullet);
+    this.currentGun().ammo--;
+    this.recoil = 10;
+  };
+
+  Ship.prototype.shootShotgun = function () {
+    var theta = Math.atan((this.vel[1])/(this.vel[0]));
+    var vel = Math.pow((Math.pow(this.vel[0], 2) + Math.pow(this.vel[1], 2)), 0.5);
+    var delThetas = [-0.174533, -0.087266, 0, 0.087266, 0.174533];
+    var i, vx, vy, newTheta, bullet;
+    for (i = 0; i < delThetas.length; i++) {
+      newTheta = theta + delThetas[i];
+      vx = vel * Math.cos(newTheta);
+      vy = vel * Math.sin(newTheta);
+      if (this.vel[0] < 0) {
+        vx *= -1;
+        vy *= -1;
+      }
+      bullet = new Asteroids.Bullet({ pos: this.pos, vel: [vx, vy], game: this.game });
+      this.game.bullets.push(bullet);
+    }
+
+    this.currentGun().ammo--;
+    this.recoil = 20;
   };
 
   Ship.prototype.decreaseRecoil = function () {

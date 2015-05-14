@@ -65,7 +65,7 @@
     } else if ((this instanceof Asteroids.Ship) &&
       (otherObject instanceof Asteroids.AmmoRefill)) {
       this.game.removeObject(otherObject);
-      this.ammo = this.ammo + 20;
+      this.currentGun().ammo += 20;
     }
   };
 })();

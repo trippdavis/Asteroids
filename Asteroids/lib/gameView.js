@@ -21,7 +21,7 @@
       this.game.ship.power([-0.5, 0]);
     }
     if (key.isPressed("space")) {
-      this.game.ship.fireBullet();
+      this.game.ship.shootGun();
     }
     if (key.isPressed("1")) {
       this.game.ship.gunIndex = 0;

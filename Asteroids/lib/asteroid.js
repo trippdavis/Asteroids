@@ -12,7 +12,6 @@
       pos: obj.pos,
       vel: vel,
       radius: size,
-      color: "#ff0000",
       game: obj.game
     });
 
@@ -20,4 +19,8 @@
   };
 
   Asteroids.Util.inherits(Asteroid, Asteroids.MovingObject);
+
+  Asteroid.prototype.draw = function () {
+    ctx.drawImage(asteroidImg, this.pos[0] - this.radius, this.pos[1] - this.radius, 2 * this.radius, 2 * this.radius);
+  };
 })();

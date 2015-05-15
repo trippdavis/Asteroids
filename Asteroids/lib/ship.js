@@ -27,7 +27,15 @@
   Asteroids.Util.inherits(Ship, Asteroids.MovingObject);
 
   Ship.prototype.draw = function () {
-    ctx.drawImage(spaceshipImg, this.pos[0] - this.radius, this.pos[1] - this.radius);
+    ctx.save();
+    ctx.translate(this.pos[0], this.pos[1]);
+    var theta = (Math.PI / 2) + Math.atan(this.vel[1] / this.vel[0]);
+    if (this.vel[0] < 0) {
+      theta += Math.PI;
+    }
+    ctx.rotate(theta);
+    ctx.drawImage(spaceshipImg, -spaceshipImg.width / 2, -spaceshipImg.width / 2);
+    ctx.restore();
   };
 
   Ship.prototype.relocate = function () {

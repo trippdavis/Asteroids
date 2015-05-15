@@ -4,8 +4,7 @@
   }
 
   var Bullet = Asteroids.Bullet = function (obj) {
-    var mult = (20 / Math.pow(Math.pow(obj.dir[0], 2) + Math.pow(obj.dir[1], 2), 0.5));
-    var vel = [obj.dir[0] * mult, obj.dir[1] * mult];
+    var vel = [20 * Math.cos(obj.dir), 20 * Math.sin(obj.dir)];
 
     Asteroids.MovingObject.call(this,
     {

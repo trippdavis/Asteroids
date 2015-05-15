@@ -9,16 +9,16 @@
 
   GameView.prototype.bindKeyHandlers = function () {
     if (key.isPressed("up")) {
-      this.game.ship.power([0, -0.5]);
+      this.game.ship.changeSpeed(1);
     }
     if (key.isPressed("down")) {
-      this.game.ship.power([0, 0.5]);
+      this.game.ship.changeSpeed(-1);
     }
     if (key.isPressed("right")) {
-      this.game.ship.power([0.5, 0]);
+      this.game.ship.changeDir(1);
     }
     if (key.isPressed("left")) {
-      this.game.ship.power([-0.5, 0]);
+      this.game.ship.changeDir(-1);
     }
     if (key.isPressed("space")) {
       this.game.ship.shootGun();

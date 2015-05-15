@@ -31,11 +31,7 @@
     var newX = this.pos[0] + this.vel[0];
     var newY = this.pos[1] + this.vel[1];
     var pos = [newX, newY];
-    if (this instanceof Asteroids.Ship) {
-      this.pos = this.game.wrap(pos);
-    } else {
-      this.pos = pos;
-    }
+    this.pos = pos;
   };
 
   mo.prototype.isCollidedWith = function (otherObject) {

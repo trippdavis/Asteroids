@@ -5,27 +5,28 @@
 
   var Ship = Asteroids.Ship = function (obj) {
     this.recoil = 0;
-    this.guns = [
-      {name: "Pistol", ammo: 100},
-      {name: "Shotgun", ammo: 20},
-      {name: "Laser", ammo: 1000},
-      {name: "Gun 4", ammo: 100},
-      {name: "Gun 5", ammo: 100}
-    ];
+    this.initialAmmo();
     this.gunIndex = 0;
     this.theta = 0;
     this.speed = 0;
-
-    Asteroids.MovingObject.call(this,
-    {
-      pos: obj.pos,
-      radius: 30,
-      color: "#FFFFFF",
-      game: obj.game
-    });
+    this.radius = 25;
+    this.game = obj.game;
+    this.pos = this.placeInCenter();
   };
 
   Asteroids.Util.inherits(Ship, Asteroids.MovingObject);
+
+  Ship.prototype.initialAmmo = function () {
+    this.guns = [
+      {name: "Pistol", ammo: 100},
+      {name: "Shotgun", ammo: 0},
+      {name: "Laser", ammo: 0}
+    ];
+  };
+
+  Ship.prototype.placeInCenter = function () {
+    return [(this.game.dimX / 2) - this.radius, (this.game.dimY / 2) - this.radius];
+  };
 
   Ship.prototype.draw = function () {
     ctx.save();
@@ -45,8 +46,10 @@
   };
 
   Ship.prototype.relocate = function () {
-    this.vel = [0,0];
-    this.pos = this.game.randomPosition();
+    this.pos = this.placeInCenter();
+    this.speed = 0;
+    this.theta = 0;
+    this.initialAmmo();
   };
 
   Ship.prototype.changeSpeed = function (mult) {

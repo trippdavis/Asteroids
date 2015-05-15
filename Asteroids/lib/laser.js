@@ -4,8 +4,9 @@
   }
 
   var Laser = Asteroids.Laser = function (obj) {
+    var mult = (20 / Math.pow(Math.pow(obj.dir[0], 2) + Math.pow(obj.dir[1], 2), 0.5));
+    this.vel = [obj.dir[0] * mult, obj.dir[1] * mult];
     this.pos = obj.pos;
-    this.vel = obj.vel;
     this.theta = Math.atan(this.vel[1] / this.vel[0]);
     if (this.vel[0] < 0) {
       this.theta += (Math.PI);

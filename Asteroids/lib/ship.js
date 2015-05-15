@@ -67,7 +67,7 @@
   };
 
   Ship.prototype.shootPistol = function () {
-    var bullet = new Asteroids.Bullet({ pos: this.pos, vel: [this.vel[0] * 2, this.vel[1] * 2], game: this.game});
+    var bullet = new Asteroids.Bullet({ pos: this.pos, dir: this.vel, game: this.game});
     this.game.bullets.push(bullet);
     this.currentGun().ammo--;
     this.recoil = 10;
@@ -75,18 +75,17 @@
 
   Ship.prototype.shootShotgun = function () {
     var theta = Math.atan((this.vel[1])/(this.vel[0]));
-    var vel = Math.pow((Math.pow(this.vel[0], 2) + Math.pow(this.vel[1], 2)), 0.5);
     var delThetas = [-0.174533, -0.087266, 0, 0.087266, 0.174533];
-    var i, vx, vy, newTheta, bullet;
+    var i, x, y, newTheta, bullet;
     for (i = 0; i < delThetas.length; i++) {
       newTheta = theta + delThetas[i];
-      vx = vel * Math.cos(newTheta);
-      vy = vel * Math.sin(newTheta);
+      x = Math.cos(newTheta);
+      y = Math.sin(newTheta);
       if (this.vel[0] < 0) {
-        vx *= -1;
-        vy *= -1;
+        x *= -1;
+        y *= -1;
       }
-      bullet = new Asteroids.Bullet({ pos: this.pos, vel: [vx, vy], game: this.game });
+      bullet = new Asteroids.Bullet({ pos: this.pos, dir: [x, y], game: this.game });
       this.game.bullets.push(bullet);
     }
 
@@ -95,7 +94,7 @@
   };
 
   Ship.prototype.shootLaser = function () {
-    var laser = new Asteroids.Laser({ pos: this.pos, vel: [this.vel[0], this.vel[1]], game: this.game });
+    var laser = new Asteroids.Laser({ pos: this.pos, dir: this.vel, game: this.game });
     this.game.lasers.push(laser);
     this.currentGun().ammo--;
     this.recoil = 50;

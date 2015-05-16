@@ -24,19 +24,13 @@
       this.game.ship.shootGun();
     }
     if (key.isPressed("1")) {
-      this.game.ship.gunIndex = 0;
+      this.game.ship.currentGun = "Pistol";
     }
     if (key.isPressed("2")) {
-      this.game.ship.gunIndex = 1;
+      this.game.ship.currentGun = "Shotgun";
     }
     if (key.isPressed("3")) {
-      this.game.ship.gunIndex = 2;
-    }
-    if (key.isPressed("4")) {
-      this.game.ship.gunIndex = 3;
-    }
-    if (key.isPressed("5")) {
-      this.game.ship.gunIndex = 4;
+      this.game.ship.currentGun = "Laser";
     }
   };
 

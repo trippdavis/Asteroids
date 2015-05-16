@@ -4,6 +4,8 @@
   }
 
   var Ship = Asteroids.Ship = function (obj) {
+    this.image = spaceshipImg;
+    this.currentGun = "Pistol";
     this.recoil = 0;
     this.initialAmmo();
     this.gunIndex = 0;
@@ -17,11 +19,11 @@
   Asteroids.Util.inherits(Ship, Asteroids.MovingObject);
 
   Ship.prototype.initialAmmo = function () {
-    this.guns = [
-      {name: "Pistol", ammo: 100},
-      {name: "Shotgun", ammo: 0},
-      {name: "Laser", ammo: 0}
-    ];
+    this.guns = {
+      Pistol: 100,
+      Shotgun: 5,
+      Laser: 10
+    };
   };
 
   Ship.prototype.placeInCenter = function () {
@@ -33,7 +35,7 @@
     ctx.translate(this.pos[0], this.pos[1]);
     var deltaTheta = (Math.PI / 2) + this.theta;
     ctx.rotate(deltaTheta);
-    ctx.drawImage(spaceshipImg, -spaceshipImg.width / 2, -spaceshipImg.width / 2);
+    ctx.drawImage(this.image, -spaceshipImg.width / 2, -spaceshipImg.width / 2);
     ctx.restore();
   };
 
@@ -45,8 +47,9 @@
     }
   };
 
-  Ship.prototype.relocate = function () {
+  Ship.prototype.newLife = function () {
     this.pos = this.placeInCenter();
+    this.currentGun = "Pistol";
     this.speed = 0;
     this.theta = 0;
     this.initialAmmo();
@@ -61,8 +64,8 @@
   };
 
   Ship.prototype.shootGun = function () {
-    if (this.currentGun().ammo > 0 && this.recoil === 0) {
-      switch (this.currentGun().name) {
+    if (this.guns[this.currentGun] > 0 && this.recoil === 0) {
+      switch (this.currentGun) {
         case "Pistol":
           this.shootPistol();
           break;
@@ -73,14 +76,14 @@
           this.shootLaser();
           break;
       }
-      this.color = "#f4e446";
+      this.image = spaceshipRecoilImg;
     }
   };
 
   Ship.prototype.shootPistol = function () {
     var bullet = new Asteroids.Bullet({ pos: this.pos, dir: this.theta, game: this.game});
     this.game.bullets.push(bullet);
-    this.currentGun().ammo--;
+    this.guns[this.currentGun]--;
     this.recoil = 10;
   };
 
@@ -93,14 +96,14 @@
       this.game.bullets.push(bullet);
     }
 
-    this.currentGun().ammo--;
+    this.guns[this.currentGun]--;
     this.recoil = 30;
   };
 
   Ship.prototype.shootLaser = function () {
     var laser = new Asteroids.Laser({ pos: this.pos, dir: this.theta, game: this.game });
     this.game.lasers.push(laser);
-    this.currentGun().ammo--;
+    this.guns[this.currentGun]--;
     this.recoil = 50;
   };
 
@@ -108,16 +111,18 @@
     if (this.recoil > 0) {
       this.recoil--;
       if (this.recoil === 0) {
-        this.color = "#FFFFFF";
+        this.image = spaceshipImg;
       }
     }
   };
 
-  Ship.prototype.currentGun = function () {
-    return this.guns[this.gunIndex];
-  };
-
-  Ship.prototype.ammoRefill = function () {
-    this.currentGun().ammo += 20;
+  Ship.prototype.ammoRefill = function (type) {
+    if (type === "Laser") {
+      this.guns.Laser += 20;
+    } else if (type === "Shotgun") {
+      this.guns.Shotgun += 10;
+    } else if (type === "Pistol") {
+      this.guns.Pistol += 50;
+    }
   };
 })();

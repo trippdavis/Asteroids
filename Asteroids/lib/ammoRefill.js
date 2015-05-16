@@ -9,10 +9,17 @@
       pos: obj.pos,
       vel: [0, 0],
       radius: 5,
-      color: "#00b0e5",
       game: obj.game
     });
 
+    this.type = obj.type;
+    if (this.type === "Laser") {
+      this.color = "#33CCFF";
+    } else if (this.type === "Shotgun") {
+      this.color = "#FF0000";
+    } else if (this.type === "Pistol") {
+      this.color = "#009900";
+    }
     this.timeLeft = 200;
   };
 

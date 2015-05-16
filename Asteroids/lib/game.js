@@ -40,12 +40,22 @@
   };
 
   Game.prototype.addRefill = function () {
+    var rand = Math.random();
     obj = {
       pos: this.randomPosition(),
       game: this
     };
-    var refill = new Asteroids.AmmoRefill(obj);
-    this.refills.push(refill);
+    if (rand < 0.001) {
+      obj.type = "Laser";
+    } else if (rand < 0.002) {
+      obj.type = "Shotgun";
+    } else if (rand < 0.005) {
+      obj.type = "Pistol";
+    }
+    if (obj.type) {
+      var refill = new Asteroids.AmmoRefill(obj);
+      this.refills.push(refill);
+    }
   };
 
   Game.prototype.randomPosition = function () {
@@ -86,8 +96,8 @@
     ctx.font = "20pt Arial";
     ctx.fillText("Score: " + this.score, 10, 30);
     ctx.fillText("Lives: " + this.lives, 10, 60);
-    ctx.fillText("Gun: " + this.ship.currentGun().name, 10, 90);
-    ctx.fillText("Ammo: " + this.ship.currentGun().ammo, 10, 120);
+    ctx.fillText("Gun: " + this.ship.currentGun, 10, 90);
+    ctx.fillText("Ammo: " + this.ship.guns[this.ship.currentGun], 10, 120);
   };
 
   Game.prototype.moveObjects = function () {
@@ -175,7 +185,7 @@
     while (i < this.refills.length) {
       var refill = this.refills[i];
       if (refill.isCollidedWith(this.ship)) {
-        this.ship.ammoRefill(refill);
+        this.ship.ammoRefill(refill.type);
         this.refills.splice(i, 1);
       } else {
         i += 1;
@@ -184,10 +194,11 @@
   };
 
   Game.prototype.shipHitAsteroid = function () {
-    this.ship.relocate();
     this.lives -= 1;
     if (this.lives === 0) {
       this.over = true;
+    } else {
+      this.ship.newLife();
     }
   };
 
@@ -208,9 +219,7 @@
     if (Math.random() < this.newAsteroidNum) {
       this.addAsteroid();
     }
-    if (Math.random() < this.refillNum) {
-      this.addRefill();
-    }
+    this.addRefill();
     this.decreaseRefillTime();
     this.ship.decreaseRecoil();
   };
